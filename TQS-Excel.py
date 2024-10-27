@@ -1,4 +1,4 @@
-import pandas as pd  # Importa a biblioteca pandas
+import pandas as pd
 
 def ler_arquivo(nomearq):
     try:
@@ -6,7 +6,7 @@ def ler_arquivo(nomearq):
             return arq.readlines()
     except FileNotFoundError:
         print(f"Erro: O arquivo '{nomearq}' não foi encontrado.")
-        return None  # Retorna None se o arquivo não for encontrado
+        return None
 
 def encontrar_linhas_quantitativos(linhas):
     linhas_encontradas = []
@@ -15,11 +15,10 @@ def encontrar_linhas_quantitativos(linhas):
     for i, linha in enumerate(linhas):
         if "Quantitativos" in linha:
             quantitativos_encontrados = True
-            # Lê as próximas linhas até encontrar "Legenda"
             for j in range(i + 1, len(linhas)):
-                if "Legenda" in linhas[j]:  # Verifica se a linha contém "Legenda"
+                if "Legenda" in linhas[j]:
                     break  # Para se encontrar "Legenda"
-                linhas_encontradas.append(linhas[j].strip())  # Adiciona a linha encontrada
+                linhas_encontradas.append(linhas[j].strip())
             break  # Sai do loop ao encontrar "Quantitativos"
 
     return quantitativos_encontrados, linhas_encontradas
@@ -34,17 +33,16 @@ def main():
         nomearq = input("Digite o nome do arquivo (com extensão): ")
         linhas = ler_arquivo(nomearq)
 
-        if linhas is not None:  # Verifica se o arquivo foi lido com sucesso
+        if linhas is not None:
             quantitativos_encontrados, linhas_encontradas = encontrar_linhas_quantitativos(linhas)
 
             if quantitativos_encontrados:
-                # Divide cada linha encontrada em palavras
                 palavras = [linha.split() for linha in linhas_encontradas]
                 salvar_em_excel(palavras)
-                break  # Sai do loop após salvar os dados
+                break 
             else:
                 print("A palavra 'Quantitativos' não foi encontrada.")
-                break  # Sai do loop se 'Quantitativos' não for encontrado
+                break
 
 if __name__ == "__main__":
     main()
