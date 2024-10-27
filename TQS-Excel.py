@@ -1,4 +1,6 @@
 import pandas as pd
+import glob
+import os
 
 def ler_arquivo(nomearq):
     try:
@@ -29,20 +31,25 @@ def salvar_em_excel(palavras):
     print("Dados exportados para 'palavras_extraidas.xlsx'")
 
 def main():
-    while True:
-        nomearq = input("Digite o nome do arquivo (com extensão): ")
-        linhas = ler_arquivo(nomearq)
+    arquivos_lst = glob.glob("*.LST")
+    
+    if not arquivos_lst:
+        print("Nenhum arquivo com extensão .LST foi encontrado na pasta.")
+        return
 
-        if linhas is not None:
-            quantitativos_encontrados, linhas_encontradas = encontrar_linhas_quantitativos(linhas)
+    nomearq = arquivos_lst[0]  # Pega o primeiro arquivo encontrado com extensão .LST
+    print(f"Lendo o arquivo '{nomearq}'")
 
-            if quantitativos_encontrados:
-                palavras = [linha.split() for linha in linhas_encontradas]
-                salvar_em_excel(palavras)
-                break 
-            else:
-                print("A palavra 'Quantitativos' não foi encontrada.")
-                break
+    linhas = ler_arquivo(nomearq)
+
+    if linhas is not None:
+        quantitativos_encontrados, linhas_encontradas = encontrar_linhas_quantitativos(linhas)
+
+        if quantitativos_encontrados:
+            palavras = [linha.split() for linha in linhas_encontradas]
+            salvar_em_excel(palavras)
+        else:
+            print("A palavra 'Quantitativos' não foi encontrada.")
 
 if __name__ == "__main__":
     main()
