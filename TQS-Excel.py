@@ -1,7 +1,6 @@
 import pandas as pd  # Importa a biblioteca pandas
 
 def ler_arquivo(nomearq):
-    """Lê o arquivo e retorna suas linhas. Lança uma exceção se o arquivo não existir."""
     try:
         with open(nomearq, "r", encoding="latin-1") as arq:
             return arq.readlines()
@@ -10,7 +9,6 @@ def ler_arquivo(nomearq):
         return None  # Retorna None se o arquivo não for encontrado
 
 def encontrar_linhas_quantitativos(linhas):
-    """Encontra as linhas entre 'Quantitativos' e 'Legenda'."""
     linhas_encontradas = []
     quantitativos_encontrados = False
 
@@ -27,7 +25,6 @@ def encontrar_linhas_quantitativos(linhas):
     return quantitativos_encontrados, linhas_encontradas
 
 def salvar_em_excel(palavras):
-    """Salva a lista de palavras em um arquivo Excel."""
     df = pd.DataFrame(palavras)
     df.to_excel("palavras_extraidas.xlsx", index=False, header=False)
     print("Dados exportados para 'palavras_extraidas.xlsx'")
