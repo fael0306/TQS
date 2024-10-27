@@ -1,7 +1,14 @@
+import os
+
 def ler_arquivo(nomearq):
     """Lê o arquivo e retorna suas linhas. Lança uma exceção se o arquivo não existir."""
+    # Obtém o diretório do script atual
+    diretorio_atual = os.path.dirname(os.path.abspath(__file__))
+    # Cria o caminho completo para o arquivo
+    caminho_arquivo = os.path.join(diretorio_atual, nomearq)
+
     try:
-        with open(nomearq, "r", encoding="latin-1") as arq:
+        with open(caminho_arquivo, "r", encoding="latin-1") as arq:
             return arq.readlines()
     except FileNotFoundError:
         print(f"Erro: O arquivo '{nomearq}' não foi encontrado.")
@@ -25,8 +32,13 @@ def encontrar_linhas_quantitativos(linhas):
     return quantitativos_encontrados, linhas_encontradas
 
 def salvar_em_excel(palavras):
-    """Salva a lista de palavras em um arquivo Excel (XML)."""
-    with open("palavras_extraidas.xml", "w", encoding="utf-8") as f:
+    """Salva a lista de palavras em um arquivo Excel (XML) no diretório atual."""
+    # Obtém o diretório do script atual
+    diretorio_atual = os.path.dirname(os.path.abspath(__file__))
+    # Define o caminho completo para o arquivo
+    caminho_arquivo = os.path.join(diretorio_atual, "palavras_extraidas.xml")
+
+    with open(caminho_arquivo, "w", encoding="utf-8") as f:
         # Escreve o cabeçalho do XML para Excel
         f.write('<?xml version="1.0"?>\n')
         f.write('<?mso-application progid="Excel.Sheet"?>\n')
@@ -50,7 +62,7 @@ def salvar_em_excel(palavras):
         f.write('</Worksheet>\n')
         f.write('</Workbook>\n')
 
-    print("Dados exportados para 'palavras_extraidas.xml'")
+    print(f"Dados exportados para '{caminho_arquivo}'")
 
 def main():
     while True:
