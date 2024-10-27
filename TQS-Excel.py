@@ -1,5 +1,3 @@
-import pandas as pd  # Importa a biblioteca pandas
-
 def ler_arquivo(nomearq):
     """Lê o arquivo e retorna suas linhas. Lança uma exceção se o arquivo não existir."""
     try:
@@ -27,10 +25,32 @@ def encontrar_linhas_quantitativos(linhas):
     return quantitativos_encontrados, linhas_encontradas
 
 def salvar_em_excel(palavras):
-    """Salva a lista de palavras em um arquivo Excel."""
-    df = pd.DataFrame(palavras)
-    df.to_excel("palavras_extraidas.xlsx", index=False, header=False)
-    print("Dados exportados para 'palavras_extraidas.xlsx'")
+    """Salva a lista de palavras em um arquivo Excel (XML)."""
+    with open("palavras_extraidas.xml", "w", encoding="utf-8") as f:
+        # Escreve o cabeçalho do XML para Excel
+        f.write('<?xml version="1.0"?>\n')
+        f.write('<?mso-application progid="Excel.Sheet"?>\n')
+        f.write('<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"\n')
+        f.write(' xmlns:o="urn:schemas-microsoft-com:office:office"\n')
+        f.write(' xmlns:x="urn:schemas-microsoft-com:office:excel"\n')
+        f.write(' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"\n')
+        f.write(' xmlns:html="http://www.w3.org/TR/REC-html40">\n')
+        f.write('<Worksheet ss:Name="Sheet1">\n')
+        f.write('<Table>\n')
+
+        # Adiciona cada linha de palavras ao XML
+        for linha in palavras:
+            f.write('  <Row>\n')
+            for palavra in linha:
+                f.write(f'    <Cell><Data ss:Type="String">{palavra}</Data></Cell>\n')
+            f.write('  </Row>\n')
+
+        # Fecha as tags do XML
+        f.write('</Table>\n')
+        f.write('</Worksheet>\n')
+        f.write('</Workbook>\n')
+
+    print("Dados exportados para 'palavras_extraidas.xml'")
 
 def main():
     while True:
@@ -51,3 +71,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
