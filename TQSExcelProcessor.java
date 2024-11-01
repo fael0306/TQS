@@ -112,6 +112,8 @@ public class TQSExcelProcessor extends JFrame {
             for (List<String> linha : palavras) {
                 writer.write("  <Row>\n");
                 for (String palavra : linha) {
+                    // Substitui "." por "," apenas para números
+                    palavra = palavra.replace(".", ",");
                     writer.write("    <Cell><Data ss:Type=\"String\">" + palavra + "</Data></Cell>\n");
                 }
                 writer.write("  </Row>\n");
@@ -126,9 +128,7 @@ public class TQSExcelProcessor extends JFrame {
             outputArea.append("\nErro ao salvar o arquivo XLS.");
         }
     }
-    
-    
-
+      
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             TQSExcelProcessor frame = new TQSExcelProcessor();
